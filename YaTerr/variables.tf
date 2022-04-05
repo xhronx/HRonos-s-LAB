@@ -1,3 +1,4 @@
+/*
 terraform {
   required_providers {
     yandex = {
@@ -13,3 +14,4 @@ provider "yandex" {
   folder_id = "<идентификатор каталога>"
   zone      = "<зона доступности по умолчанию>"
 }
+*/
