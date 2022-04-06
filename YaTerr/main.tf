@@ -34,7 +34,15 @@ provider "yandex" {
   zone      = var.zone
 }
 
+/*
+resource "yandex_vpc_network" "foo" {} # Создаем VPC
 
+resource "yandex_vpc_subnet" "foo" { # Настраиваем VPC
+  zone           = var.zone
+  network_id     = yandex_vpc_network.foo.id # Берем output переменную из другого ресурса 
+  v4_cidr_blocks = []
+}
+*/
 
 /*
 variable "zone" {                               
