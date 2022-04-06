@@ -13,8 +13,30 @@ resource "yandex_compute_instance" "default" {
   ...
 }
 */
+variable "zone" {                               
+  #description = "Use specific availability zone" 
+  type        = string                          
+  default     = "ru-central1-b"                 
+}
+terraform {
+  required_providers {
+    yandex = {
+      source = "terraform-registry.storage.yandexcloud.net/yandex-cloud/yandex"
+    }
+  }
+  required_version = ">= 0.13"
+}
+
+provider "yandex" {
+  token     = "AQAAAAAH5YqGAATuwVbU9LsB-UxbtNbbW1ALXCc"
+  cloud_id  = "b1gq09fegok6th6eku05"
+  folder_id = "b1gc2kft2tqjiqe4it7d"
+  zone      = var.zone
+}
 
 
+
+/*
 variable "zone" {                               
   description = "Use specific availability zone" 
   type        = string                          
@@ -35,7 +57,7 @@ provider "yandex" {
   folder_id                = "SKILLBOX_PROJECT"
   zone                     = var.zone
 }
-
+*/
 
 
 /*
