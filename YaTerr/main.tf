@@ -89,10 +89,18 @@ resource "yandex_compute_instance" "sf-vm-1" {
   }
 
   metadata = {
+    ssh-keys = ${file("~/.ssh/id_rsa.pub")}
+  }
+  /*
+   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
-
+  */
 }
+
+#-----------------------------------------------------------------------------!!!
+
+
 /*
   
   boot_disk {
