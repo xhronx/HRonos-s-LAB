@@ -13,11 +13,8 @@ resource "yandex_compute_instance" "default" {
   ...
 }
 */
-variable "zone" {                               
-  #description = "Use specific availability zone" 
-  type        = string                          
-  default     = "ru-central1-b"                 
-}
+
+#Описываем провайдеров 
 terraform {
   required_providers {
     yandex = {
@@ -27,12 +24,62 @@ terraform {
   required_version = ">= 0.13"
 }
 
+#Подключаем провайдера Яндекс
 provider "yandex" {
-  token     = "AQAAAAAH5YqGAATuwVbU9LsB-UxbtNbbW1ALXCc"
-  cloud_id  = "b1gq09fegok6th6eku05"
-  folder_id = "b1gc2kft2tqjiqe4it7d"
+  token     = var.token
+  cloud_id  = var.cloud_id
+  folder_id = var.folder_id
   zone      = var.zone
 }
+
+/*ADD Задание B5.3.7*/
+#Создаём сервисный аккаунт
+resource "yandex_iam_service_account" "sa" {
+  folder_id = var.folder_id
+  name        = "sfadm"
+  description = "sf service account to manage VMs"
+}
+
+resource "yandex_resourcemanager_folder_iam_member" "admin" {
+  folder_id = var.folder_id
+  role   = "storage.editor"
+  member = "serviceAccount:${yandex_iam_service_account.sa.id}"
+}
+
+
+/*
+resource "yandex_vpc_network" "foo" {
+  name = "lab-network"
+}
+
+resource "yandex_vpc_subnet" "foo" {
+  v4_cidr_blocks = ["10.2.0.0/16"]
+  zone           = var.zone
+  network_id     = yandex_vpc_network.foo.id
+}
+
+resource "yandex_compute_instance" "sf-vm-1" {
+  name = "sf-vm-1"
+  resources {
+    cores  = 2
+    memory = 2
+  }
+  boot_disk {
+    initialize_params {
+      image_id = "fd80jfslq61mssea4ejn"
+    }
+  }
+  network_interface {
+    subnet_id = yandex_vpc_subnet.foo.id
+    nat       = true
+  }
+  metadata = {
+    foo      = "bar"
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+  }
+
+}
+*/
 
 /*
 resource "yandex_vpc_network" "foo" {} # Создаем VPC
