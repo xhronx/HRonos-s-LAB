@@ -34,30 +34,76 @@ provider "yandex" {
 
 /*ADD Задание B5.3.7*/
 #Создаём сервисный аккаунт
-resource "yandex_iam_service_account" "sa" {
-  folder_id = var.folder_id
+resource "yandex_iam_service_account" "sasa" {
+  folder_id   = var.folder_id
   name        = "sfadm"
   description = "sf service account to manage VMs"
 }
 
+#Даём sfadm права эдитора к моей папке в облаке
 resource "yandex_resourcemanager_folder_iam_member" "admin" {
   folder_id = var.folder_id
-  role   = "storage.editor"
-  member = "serviceAccount:${yandex_iam_service_account.sa.id}"
+  role      = "storage.editor"
+  member    = "serviceAccount:${yandex_iam_service_account.sasa.id}"
 }
 
+resource "yandex_iam_service_account_static_access_key" "sasa-static-key" {
+  service_account_id = yandex_iam_service_account.sasa.id
+  description        = "static access key for object storage sfamd"
+}
 
-/*
 resource "yandex_vpc_network" "foo" {
-  name = "lab-network"
+  name = "sf-network-1"
 }
 
 resource "yandex_vpc_subnet" "foo" {
-  v4_cidr_blocks = ["10.2.0.0/16"]
+  name           = "sf-subnet-1"
+  v4_cidr_blocks = ["192.168.10.0/24"]
   zone           = var.zone
   network_id     = yandex_vpc_network.foo.id
 }
 
+data "yandex_compute_image" "my_image" {
+  family = "lemp"
+  # name       = "my-custom-image"
+  # source_url = "https://storage.yandexcloud.net/lucky-images/kube-it.img"
+}
+
+resource "yandex_compute_instance" "sf-vm-1" {
+  name = "sf-vm-1"
+
+  resources {
+    cores  = 2
+    memory = 2
+  }
+
+  network_interface {
+    subnet_id = yandex_vpc_subnet.foo.id
+    nat = true
+  }
+
+  boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.my_image.id
+    }
+  }
+
+  metadata = {
+    ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
+  }
+
+}
+/*
+  
+  boot_disk {
+    initialize_params {
+      image_id = data.yandex_compute_image.my_image.id
+    }
+  }
+  */
+
+
+/*
 resource "yandex_compute_instance" "sf-vm-1" {
   name = "sf-vm-1"
   resources {
