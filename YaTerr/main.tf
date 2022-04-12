@@ -79,7 +79,7 @@ resource "yandex_compute_instance" "sf-vm-1" {
 
   network_interface {
     subnet_id = yandex_vpc_subnet.foo.id
-    nat = true
+    nat       = true
   }
 
   boot_disk {
@@ -87,11 +87,11 @@ resource "yandex_compute_instance" "sf-vm-1" {
       image_id = data.yandex_compute_image.my_image.id
     }
   }
-  
-   metadata = {
+
+  metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
-  
+
 }
 
 #-----------------------------------------------------------------------------!!!
