@@ -87,15 +87,11 @@ resource "yandex_compute_instance" "sf-vm-1" {
       image_id = data.yandex_compute_image.my_image.id
     }
   }
-
-  metadata = {
-    ssh-keys = ${file("~/.ssh/id_rsa.pub")}
-  }
-  /*
+  
    metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
-  */
+  
 }
 
 #-----------------------------------------------------------------------------!!!
