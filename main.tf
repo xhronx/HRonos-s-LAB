@@ -8,12 +8,12 @@ provider "yandex" {
 }
 
 
-#Описываем провайдеров 
+#Описываем провайдеров
 terraform {
   required_providers {
     yandex = {
       source  = "terraform-registry.storage.yandexcloud.net/yandex-cloud/yandex"
-      version = "0.72.0"
+      version = ">= 0.72.0"
     }
   }
   required_version = ">= 0.13"
@@ -131,3 +131,9 @@ module "module_instance_2" {
   instance_family_image = "lamp"
   vpc_subnet_id         = yandex_vpc_subnet.subnet2.id
 }
+#?????????????????????????????????????????????????
+/*
+plugin "fooo" {
+  enabled = true
+}
+*/
