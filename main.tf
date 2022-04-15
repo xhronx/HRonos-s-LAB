@@ -1,17 +1,16 @@
-/*
+
 #Описываем провайдеров 
 terraform {
   required_providers {
     yandex = {
-      source  = "yandex-cloud/yandex"
+      source = "terraform-registry.storage.yandexcloud.net/yandex-cloud/yandex"
       version = "0.73.0"
     }
   }
   
   required_version = ">= 0.13"
 
-  
-  #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Configure the backend
+
   backend "s3" {
     endpoint   = "storage.yandexcloud.net"
     bucket     = "sf-tf-test-bucket-1"
@@ -22,21 +21,21 @@ terraform {
 
     skip_region_validation      = true
     skip_credentials_validation = true
-  }
-  
+  } 
 }
-*/
 
-
+/*
 #Описываем провайдеров 
 terraform {
   required_providers {
     yandex = {
-      source  = "yandex-cloud/yandex"
-      version = "0.73.0"
+      source = "terraform-registry.storage.yandexcloud.net/yandex-cloud/yandex"
     }
   }
+  required_version = ">= 0.13"
 }
+*/
+
 
 #Подключаем провайдера Яндекс
 provider "yandex" {
@@ -87,8 +86,6 @@ resource "yandex_vpc_subnet" "foo" {
 
 data "yandex_compute_image" "my_image" {
   family = "lemp"
-  # name       = "my-custom-image"
-  # source_url = "https://storage.yandexcloud.net/lucky-images/kube-it.img"
 }
 
 resource "yandex_compute_instance" "sf-vm-1" {
@@ -113,5 +110,4 @@ resource "yandex_compute_instance" "sf-vm-1" {
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
-
 }
