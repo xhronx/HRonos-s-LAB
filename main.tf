@@ -1,15 +1,4 @@
-/*
-#Описываем провайдеров 
-terraform {
-  required_providers {
-    yandex = {
-      source = "terraform-registry.storage.yandexcloud.net/yandex-cloud/yandex"
-      #version = "0.73.0"
-    }
-  }
-  required_version = ">= 0.13"
-}
-*/
+
 #Подключаем провайдера Яндекс
 provider "yandex" {
   token     = var.token
@@ -84,10 +73,28 @@ resource "yandex_vpc_subnet" "foo" {
   network_id     = yandex_vpc_network.foo.id
 }
 
-data "yandex_compute_image" "my_image" {
-  family = "lemp"
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+resource "yandex_vpc_subnet" "subnet1" {
+  name = "subnet1"
+  zone = var.zone
+  #zone           = "ru-central1-a"
+  network_id     = yandex_vpc_network.foo.id
+  v4_cidr_blocks = ["192.168.11.0/24"]
 }
 
+resource "yandex_vpc_subnet" "subnet2" {
+  name = "subnet2"
+  zone = var.zone
+  #zone           = "ru-central1-b"
+  network_id     = yandex_vpc_network.foo.id
+  v4_cidr_blocks = ["192.168.12.0/24"]
+}
+
+/*
+data "yandex_compute_image" "my_image" {
+  family = "ubuntu"
+}
+*/
 resource "yandex_compute_instance" "sf-vm-1" {
   name = "sf-vm-1"
 
@@ -103,11 +110,24 @@ resource "yandex_compute_instance" "sf-vm-1" {
 
   boot_disk {
     initialize_params {
-      image_id = data.yandex_compute_image.my_image.id
+      #image_id = data.yandex_compute_image.my_image.id
+      image_id = "fd81hgrcv6lsnkremf32"
     }
   }
 
   metadata = {
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
+}
+#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+module "module_instance_1" {
+  source                = "./modules"
+  instance_family_image = "lemp"
+  vpc_subnet_id         = yandex_vpc_subnet.subnet1.id
+}
+
+module "module_instance_2" {
+  source                = "./modules"
+  instance_family_image = "lamp"
+  vpc_subnet_id         = yandex_vpc_subnet.subnet2.id
 }
