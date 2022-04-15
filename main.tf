@@ -1,42 +1,15 @@
-
-#Описываем провайдеров 
-terraform {
-  required_providers {
-    yandex = {
-      source = "terraform-registry.storage.yandexcloud.net/yandex-cloud/yandex"
-      version = "0.73.0"
-    }
-  }
-  
-  required_version = ">= 0.13"
-
-
-  backend "s3" {
-    endpoint   = "storage.yandexcloud.net"
-    bucket     = "sf-tf-test-bucket-1"
-    region     = "ru-central1-b"
-    key        = "Terraform-states/yac-state-1/terraform.tfstate"
-    access_key = "YCAJEF2n1fZ8ivvLGe0sHK455"
-    secret_key = "YCOwl32O4N-fc9N11T52CVDy2iBt9GTtnPtuby25"
-
-    skip_region_validation      = true
-    skip_credentials_validation = true
-  } 
-}
-
 /*
 #Описываем провайдеров 
 terraform {
   required_providers {
     yandex = {
       source = "terraform-registry.storage.yandexcloud.net/yandex-cloud/yandex"
+      #version = "0.73.0"
     }
   }
   required_version = ">= 0.13"
 }
 */
-
-
 #Подключаем провайдера Яндекс
 provider "yandex" {
   token     = var.token
@@ -44,6 +17,33 @@ provider "yandex" {
   folder_id = var.folder_id
   zone      = var.zone
 }
+
+
+#Описываем провайдеров 
+terraform {
+  required_providers {
+    yandex = {
+      source  = "terraform-registry.storage.yandexcloud.net/yandex-cloud/yandex"
+      version = "0.72.0"
+    }
+  }
+  required_version = ">= 0.13"
+
+  #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Configure the backend
+  backend "s3" {
+    endpoint   = "storage.yandexcloud.net"
+    bucket     = "sf-tf-test-bucket-1"
+    region     = "ru-central1-b"
+    key        = "Terraform-states/yac-state-1/terraform.tfstate"
+    access_key = "YCAJEWuVkETRZRfAhaB0PIShG"
+    secret_key = "YCP2Eel0gp1QiYB1jfvjEnQ5D4MoitvIam4d-i5I"
+
+    skip_region_validation      = true
+    skip_credentials_validation = true
+  }
+}
+
+
 
 #Create a bucket
 resource "yandex_storage_bucket" "test" {
