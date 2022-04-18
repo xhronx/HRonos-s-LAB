@@ -137,3 +137,7 @@ plugin "fooo" {
   enabled = true
 }
 */
+
+data "yandex_lb_network_load_balancer" "sf-nlb-1" {
+  network_load_balancer_id = "sf-nlb-1"
+}
