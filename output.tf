@@ -7,8 +7,11 @@ output "secret_key" {
   value     = yandex_iam_service_account_static_access_key.sasa-static-key.secret_key
   sensitive = true
 }
-# terraform output -raw secret_key
+
+
 # terraform output -raw access_key
+# terraform output -raw secret_key
+
 
 output "internal_ip_address_sf-vm-1" {
   value = yandex_compute_instance.sf-vm-1.network_interface.0.ip_address

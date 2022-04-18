@@ -7,7 +7,7 @@ variable "zone" {
 variable "folder_id" {
   #description = "my folder_id yandex provider"
   type    = string
-  default = "b1glq6vjtf2m7q3d569u"
+  default = "b1ghb1lptk8qjdn5qa8j"
 }
 
 variable "cloud_id" {

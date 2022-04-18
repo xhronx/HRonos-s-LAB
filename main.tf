@@ -7,7 +7,6 @@ provider "yandex" {
   zone      = var.zone
 }
 
-
 #Описываем провайдеров
 terraform {
   required_providers {
@@ -17,22 +16,21 @@ terraform {
     }
   }
   required_version = ">= 0.13"
-
+  
   #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Configure the backend
   backend "s3" {
     endpoint   = "storage.yandexcloud.net"
     bucket     = "sf-tf-test-bucket-1"
     region     = "ru-central1-b"
     key        = "Terraform-states/yac-state-1/terraform.tfstate"
-    access_key = "YCAJEWuVkETRZRfAhaB0PIShG"
-    secret_key = "YCP2Eel0gp1QiYB1jfvjEnQ5D4MoitvIam4d-i5I"
+    access_key = "YCAJET00zZft3mRnJdUIZZIbn"
+    secret_key = "YCNyRDhb495yAfXWX8vS-aCjqq7X5Xg0S8GgRH9C"
 
     skip_region_validation      = true
     skip_credentials_validation = true
   }
+  
 }
-
-
 
 #Create a bucket
 resource "yandex_storage_bucket" "test" {
@@ -42,7 +40,6 @@ resource "yandex_storage_bucket" "test" {
 }
 
 
-/*ADD Задание B5.3.7*/
 #Создаём сервисный аккаунт
 resource "yandex_iam_service_account" "sasa" {
   folder_id   = var.folder_id
@@ -90,11 +87,7 @@ resource "yandex_vpc_subnet" "subnet2" {
   v4_cidr_blocks = ["192.168.12.0/24"]
 }
 
-/*
-data "yandex_compute_image" "my_image" {
-  family = "ubuntu"
-}
-*/
+
 resource "yandex_compute_instance" "sf-vm-1" {
   name = "sf-vm-1"
 
@@ -119,7 +112,9 @@ resource "yandex_compute_instance" "sf-vm-1" {
     ssh-keys = "ubuntu:${file("~/.ssh/id_rsa.pub")}"
   }
 }
-#!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+
+# MODULES + !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 module "module_instance_1" {
   source                = "./modules"
   instance_family_image = "lemp"
@@ -131,13 +126,38 @@ module "module_instance_2" {
   instance_family_image = "lamp"
   vpc_subnet_id         = yandex_vpc_subnet.subnet2.id
 }
-#?????????????????????????????????????????????????
-/*
-plugin "fooo" {
-  enabled = true
-}
-*/
 
-data "yandex_lb_network_load_balancer" "sf-nlb-1" {
-  network_load_balancer_id = "sf-nlb-1"
-}
+# Network Load Balancer + #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+resource "yandex_lb_network_load_balancer" "internal-lb-test" {
+  name = "internal-lb-test"
+  type = "internal"
+
+  listener {
+    name = "my-listener"
+    port = 8080
+    internal_address_spec {
+      #address = "<внутренний IP-адрес>"
+      #subnet_id = "<идентификатор подсети>"
+      address = "<внутренний IP-адрес>"
+      subnet_id = "<идентификатор подсети>"
+    }
+  }
+
+resource "yandex_lb_target_group" "foo" {
+  name      = "my-target-group"
+
+  target {
+    #subnet_id = "<идентификатор подсети>"
+    #address   = "<внутренний IP-адрес ресурса>"
+    subnet_id = "<идентификатор подсети>"
+    address   = "<внутренний IP-адрес ресурса>"
+  }
+
+  target {
+    #subnet_id = "<идентификатор подсети>"
+    #address   = "<внутренний IP-адрес ресурса 2>"
+    subnet_id = "<идентификатор подсети>"
+    address   = "<внутренний IP-адрес ресурса 2>"
+  }
+
+}  
