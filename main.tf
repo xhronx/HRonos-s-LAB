@@ -6,7 +6,7 @@ provider "yandex" {
   folder_id = var.folder_id
   zone      = var.zone[1]
 }
-
+#
 #Описываем провайдеров
 terraform {
   required_providers {
