@@ -1,0 +1,4 @@
+- hosts: test
+  tasks:
+    - name: Check logs with size greater than 1M in /var/log
+    - script: /etc/ansible/scripts/check_logs.sh

@@ -1,0 +1,7 @@
+- hosts: lic
+  tasks:
+    - name: Check logs
+      shell: /bin/find /var/log -type f -size +1M
+      register: out
+    - debug:
+        var: out.stdout_lines
