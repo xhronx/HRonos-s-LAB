@@ -206,7 +206,10 @@ resource "yandex_lb_network_load_balancer" "internal-lb-test" {
 
 resource "yandex_lb_target_group" "foo" {
   name      = "my-target-group"
-
+  description = "target-group for load_balancer internal-lb-test"
+  folder_id = var.folder_id
+  region_id = var.region_id
+ 
   target {
     #subnet_id = "<идентификатор подсети>"
     #address   = "<внутренний IP-адрес ресурса>"

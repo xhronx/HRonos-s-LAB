@@ -12,6 +12,11 @@ variable "zone" {
   default     = ["ru-central1-a", "ru-central1-b", "ru-central1-c"]
 }
 
+variable "region_id" {
+  #description = "my goods region_id  yandex provider"
+  type    = string
+  default = "ru-central1"
+}
 
 variable "folder_id" {
   #description = "my folder_id yandex provider"
