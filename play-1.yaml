@@ -1,0 +1,5 @@
+file:
+  path: /opt/test
+  state: present
+  owner: user1
+  group: wheel
