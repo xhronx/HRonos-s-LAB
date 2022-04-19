@@ -16,7 +16,7 @@ terraform {
     }
   }
   required_version = ">= 0.13"
-  
+
   #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!Configure the backend
   backend "s3" {
     endpoint   = "storage.yandexcloud.net"
@@ -29,7 +29,7 @@ terraform {
     skip_region_validation      = true
     skip_credentials_validation = true
   }
-  
+
 }
 
 #Create a bucket
@@ -65,9 +65,9 @@ resource "yandex_resourcemanager_folder_iam_member" "admin" {
 
 resource "yandex_resourcemanager_folder_iam_member" "admin" {
   folder_id = var.folder_id
-  role = var.roles[0]
+  role      = var.roles[0]
   #role = "storage.editor"
-  member    = "serviceAccount:${yandex_iam_service_account.sasa.id}"
+  member = "serviceAccount:${yandex_iam_service_account.sasa.id}"
 }
 
 resource "yandex_iam_service_account_static_access_key" "sasa-static-key" {
@@ -108,7 +108,6 @@ resource "yandex_vpc_subnet" "subnet2" {
   v4_cidr_blocks = ["192.168.12.0/24"]
 }
 
-
 resource "yandex_compute_instance" "sf-vm-1" {
   name = "sf-vm-1"
 
@@ -134,7 +133,6 @@ resource "yandex_compute_instance" "sf-vm-1" {
   }
 }
 
-
 # MODULES + !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 module "module_instance_1" {
   source                = "./modules"
@@ -148,33 +146,18 @@ module "module_instance_2" {
   vpc_subnet_id         = yandex_vpc_subnet.subnet2.id
 }
 
-/*
-# Network Load Balancer + #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Network Load Balancer 
 resource "yandex_lb_network_load_balancer" "internal-lb-test" {
   name = "internal-lb-test"
-  type = "internal"
+  #type = "internal"
+  #type = 
+  folder_id = var.folder_id
 
   listener {
-    name = "my-listener"
-    port = 8080
-    internal_address_spec {
-      #address = "<внутренний IP-адрес>"
-      #subnet_id = "<идентификатор подсети>"
-      address = "192.168.10.2"
-      subnet_id = yandex_vpc_subnet.foo.id
-    }
-  }
-}
-*/
-/*
-# Network Load Balancer + #!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-resource "yandex_lb_network_load_balancer" "internal-lb-test" {
-  name = "internal-lb-test"
-  type = "internal"
-
-  listener {
-    name = "my-listener"
-    port = 8080
+    name        = "my-listener"
+    port        = 8080
+    target_port = 8080
+    /*
     internal_address_spec {
       ip_version = "ipv4"
       #address = "<внутренний IP-адрес>"
@@ -182,11 +165,21 @@ resource "yandex_lb_network_load_balancer" "internal-lb-test" {
       address = "192.168.10.2"
       subnet_id = yandex_vpc_subnet.foo.id
     }
+    */
+
+    external_address_spec {
+      ip_version = "ipv4"
+      #address = "<внутренний IP-адрес>"
+      #subnet_id = "<идентификатор подсети>"
+      address = "51.250.111.177"
+      #subnet_id = yandex_vpc_subnet.foo.id
+    }
+
   }
-  
+
   attached_target_group {
     target_group_id = yandex_lb_target_group.foo.id
-    
+
     healthcheck {
       name = "healthcheck"
       http_options {
@@ -194,22 +187,19 @@ resource "yandex_lb_network_load_balancer" "internal-lb-test" {
         path = "/"
       }
     }
-    
+
   }
-  
+
 }
-
-*/
-
 
 
 
 resource "yandex_lb_target_group" "foo" {
-  name      = "my-target-group"
+  name        = "my-target-group"
   description = "target-group for load_balancer internal-lb-test"
-  folder_id = var.folder_id
-  region_id = var.region_id
- 
+  folder_id   = var.folder_id
+  region_id   = var.region_id
+
   target {
     #subnet_id = "<идентификатор подсети>"
     #address   = "<внутренний IP-адрес ресурса>"
@@ -225,4 +215,3 @@ resource "yandex_lb_target_group" "foo" {
   }
 
 }
- 
