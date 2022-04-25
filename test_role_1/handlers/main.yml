@@ -1,0 +1,5 @@
+---
+# handlers file for test_role_1
+  - name: restart vsftpd
+    listen: restart_vsftpd
+    service: name=vsftpd state=restarted
