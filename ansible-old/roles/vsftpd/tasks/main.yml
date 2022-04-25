@@ -1,0 +1,11 @@
+---
+# tasks file for vsftpd
+  - name: install package vsftpd
+    apt: name=vsftpd state=latest
+
+  - name: Copy file to servers
+    copy: src={{ source_file }} dest={{ destin_file }} mode=777
+    notify: restart_vsftpd
+
+  - name: start vsftpd and enable
+    service: name=vsftpd state=started enabled=yes

@@ -1,0 +1,6 @@
+---
+- hosts: test2
+  gather_facts: yes
+  become: yes
+  roles:
+   - mysql

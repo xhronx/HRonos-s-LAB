@@ -1,0 +1,32 @@
+--- #Прям написал установку и настройку апача, прикол
+- hosts: test2
+  become: yes
+  gather_facts: yes
+  tasks:
+
+    - name: Установить httpd
+      apt: name=apache2 state=present
+
+    - name: Установить httpd
+      apt: name=apache2-utils state=present
+
+    - name: Удалить conf.d
+      file: path=/etc/apatch2/conf.d state=absent
+
+    - name: Создать conf.d хотя он и не нужен)
+      file: path=/tc/apatch2/conf.d state=directory
+
+    - name: Скопировать файл настроек хоста
+      copy: src=/home/xhronx/repo/HRonos-s-LAB/vhost.conf dest=/etc/apache2/host1.conf #mode=777 #remote_dest=yes
+      notify: restart_apatch2
+
+    - name: Создать пароль для апача
+      command: htpasswd -b -c /etc/apache2/.htpasswd papa 111
+
+    - name: Наполнить сайт, ага сайт
+      copy: src=/home/xhronx/repo/HRonos-s-LAB/content.html dest=/var/www/html/index.html #mode=777 #remote_src=yes
+
+  handlers:
+    - name: restart_apatch2 #перезапустить апач
+      #listen: restart_apatch2
+      service: name=apache2 state=restarted

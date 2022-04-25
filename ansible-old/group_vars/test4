@@ -1,0 +1,5 @@
+---
+ansible_host: 51.250.17.172
+ansible_user: papa
+environment: PRODUCTION
+owner: hronos

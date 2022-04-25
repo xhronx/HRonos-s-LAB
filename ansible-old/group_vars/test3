@@ -1,0 +1,7 @@
+---
+ansible_host: 192.168.1.112
+ansible_user: HRonos
+ansible_password: qetaazaDS13
+ansible_port: 5986
+ansible_connection: winrm
+ansible_winrm_server_cert_validation: ignore

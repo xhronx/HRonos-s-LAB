@@ -1,0 +1,4 @@
+---
+ansible_user: xhronx
+ansible_ssh_private_key_file: /home/xhronx/.ssh/id_rsa
+owner: ignat

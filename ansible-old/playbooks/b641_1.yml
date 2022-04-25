@@ -1,0 +1,28 @@
+---
+- name: Установить или удалить postfix
+  hosts: staging
+  become: yes
+  
+  tasks:
+    - name: Install postfix
+      apt: 
+        name: postfix 
+        state: latest
+      tags: 
+      - init postfix # не очень удобно конечно, но работает
+    
+    - name: Run postfix
+      service:
+        name: postfix
+        state: started
+      tags: 
+      - init postfix
+
+    - name: Uninstall postfix
+      apt: 
+        name: postfix 
+        state: absent
+      tags: 
+      - drop postfix
+
+  

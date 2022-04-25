@@ -1,0 +1,87 @@
+# This is the default ansible 'hosts' file.
+#
+# It should live in /etc/ansible/hosts
+#
+#   - Comments begin with the '#' character
+#   - Blank lines are ignored
+#   - Groups of hosts are delimited by [header] elements
+#   - You can enter hostnames or ip addresses
+#   - A hostname/ip can be a member of multiple groups
+
+# Ex 1: Ungrouped hosts, specify before any group headers.
+
+#green.example.com
+#blue.example.com
+#192.168.100.1
+#192.168.100.10
+
+# Ex 2: A collection of hosts belonging to the 'webservers' group
+
+#[webservers]
+#alpha.example.org
+#beta.example.org
+#192.168.1.100
+#192.168.1.110
+
+# If you have multiple hosts following a pattern you can specify
+# them like this:
+
+#www[001:006].example.com
+
+# Ex 3: A collection of database servers in the 'dbservers' group
+
+#[dbservers]
+#
+#db01.intranet.mydomain.net
+#db02.intranet.mydomain.net
+#10.25.1.56
+#10.25.1.57
+
+# Here's another example of host ranges, this time there are no
+# leading 0s:
+
+#db-[99:101]-node.example.com
+
+[test1]
+localhost #ansible_user=xhronx
+
+[test2]
+linux1	#ansible_host=51.250.101.26 #ansible_user=papa
+
+#[test2:vars]
+#ansible_user=papa
+#environment=PRODUCTION
+#owner=hronos
+
+#[staging:vars]
+#massage=Hello!
+
+[test3]
+windows1  #ansible_host=192.168.1.112 #ansible_user=HRonos
+
+[test4]
+linux2 #ansible_host=51.250.17.172
+
+#[test3:vars]
+##ansible_user=HRonos
+#ansible_password=qetaazaDS13
+#ansible_port=5986
+#ansible_connection=winrm
+#ansible_winrm_server_cert_validation=ignore
+
+[staging]
+linux1	#ansible_host=51.250.99.75 ansible_user=papa
+linux2
+
+#[staging:vars]
+#massage=Hello!
+
+[ALL_SERVERS:children]
+test1
+test2
+test3
+test4
+
+#[ALL_SERVERS:vars]
+#ansible_ssh_private_key_file=/home/xhronx/.ssh/id_rsa
+#location="Moscow"

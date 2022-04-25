@@ -1,0 +1,5 @@
+{% if ansible_python.version.major == 2 %}
+warning: Ты используешь старьё!
+{% endif %}
+
+UUID={{ ansible_device_links.uuids.sda1[0] }} /new_mountpoint xfs default 1 2

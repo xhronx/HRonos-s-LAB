@@ -1,0 +1,4 @@
+---
+# vars file for vsftpd
+    source_file: /etc/vsftpd.conf
+    destin_file: /etc/vsftpd.conf

@@ -1,0 +1,6 @@
+---
+- hosts: test4
+  gather_facts: yes
+  become: yes
+  roles:
+   - vsftpd

@@ -1,0 +1,10 @@
+---
+- name: Install default Apache WS
+  hosts: test2
+  become: yes
+
+  tasks:
+    - name: Install Apache 
+      apt: name=apache2 state=latest
+    - name: Start Apache and Enable
+      service: name=apache2 state=started enabled=yes

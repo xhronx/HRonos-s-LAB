@@ -1,0 +1,21 @@
+---
+- name: Install and Enable, MySQL and Docker
+  hosts: localhost
+  become: yes
+
+
+  tasks:
+    - name: Install SNAP
+      apt: name=snapd state=latest
+
+    - name: Install Docker
+      community.general.snap: name=docker
+
+    - name: Install MySQL
+      apt: name=mysql-server state=latest  
+
+    - name: Run test docker command
+      shell: cmd='docker run hello-world' 
+
+    - name: Start MySQL and Enable
+      service: name=mysql.service state=started enabled=yes

@@ -1,0 +1,4 @@
+---
+# handlers file for vsftpd
+
+xhronx@ubuntu:/etc/ansible/roles/vsftpd/vars$ cd ..

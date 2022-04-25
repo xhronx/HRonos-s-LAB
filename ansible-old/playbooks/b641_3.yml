@@ -1,0 +1,23 @@
+---
+- name: Install Apache and upload shit
+  hosts: test2
+  become: yes
+
+  vars:
+    source_file: /etc/ansible/playbooks/templates/motd
+    destin_file: /var/www/html
+
+  tasks:
+    - name: Install Apache WS
+      apt: name=apache2 state=latest
+
+    - name: Copy file to servers
+      copy: src={{ source_file }} dest={{ destin_file }} mode=555
+      notify: "Restart Apache"
+
+    - name: Start Apache and Enable
+      service: name=apache2 state=started enabled=yes
+
+  handlers:
+  - name: Restart Apache
+    service: name=apache2 state=restarted

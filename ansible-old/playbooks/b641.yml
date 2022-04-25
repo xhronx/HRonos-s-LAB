@@ -1,0 +1,31 @@
+---
+#- hosts: staging
+#  gather_facts: yes
+#  tasks:
+#  - name: create warning in file
+#    template: 
+#     src: /etc/ansible/playbooks/templates/warn.j2
+#     dest: /tmp/warm_py
+
+
+- hosts: test2 # группа хостов, на которой будет запущен плейбук
+  gather_facts: true # параметр, предписывающий Ansible собирать факты о машине
+  tasks: # далее перечисляются задания
+  #- name: add new fstab # имя первого задания
+  #  template: # используемый модуль
+  #    src: 'fstab.j2' # опция модуля template, указывающая на шаблон
+  #    dest: '/etc/fstab' # опция модуля template, указывающая на управляемый файл
+  #    backup: true # опция модуля template, указывающая на необходимость создания бэкапа
+  - name: sudo_apt_update # имя второго задания
+    #command: '/usr/bin/mount -a' # используемый модуль
+    shell: 'sudo apt update' # используемый модуль
+  #- name: sudo_apt_install_mysql-server # имя второго задания
+  #  shell: 'sudo apt install mysql-server'
+  #- name: sudo_mysql_secure_installation # имя второго задания
+  #  shell: 'sudo mysql_secure_installation'
+  #- name: systemctl_status_mysql.service # имя второго задания
+  #  shell: 'systemctl status mysql.service'
+  #- name: sudo_systemctl_start_mysql # имя второго задания
+  #  shell: 'sudo systemctl start mysql'
+    #shell: ''
+...

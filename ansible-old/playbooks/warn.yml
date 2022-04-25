@@ -1,0 +1,7 @@
+- hosts: staging
+  gather_facts: yes
+  tasks:
+  - name: create warning in file
+    template: 
+     src: /etc/ansible/playbooks/templates/warn.j2
+     dest: /tmp/warm_py

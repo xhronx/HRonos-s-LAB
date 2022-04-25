@@ -1,0 +1,29 @@
+---
+- name: Install Docker and RUN him
+  hosts: test2
+  become: yes
+
+  vars:
+    source_file: /etc/ansible/playbooks/templates/motd
+    destin_file: /var/www/html
+    http_port: 80
+    max_clients: 200
+    remote_user: papa
+
+  tasks:
+    - name: Install adds
+      shell: cmd="apt install apt-transport-https ca-certificates curl software-properties-common" 
+
+    - name: Install Apache WS
+      apt: name=apache2 state=latest
+
+    - name: Copy file to servers
+      copy: src={{ source_file }} dest={{ destin_file }} mode=555
+      notify: "Restart Apache"
+
+    - name: Start Apache and Enable
+      service: name=apache2 state=started enabled=yes
+
+  handlers:
+  - name: Restart Apache
+    service: name=apache2 state=restarted
