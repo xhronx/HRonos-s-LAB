@@ -1,3 +1,31 @@
 ---
 # tasks file for superusers
-#!
+
+- name: add group superusers
+  ansible.builtin.group:
+    name: superusers
+    state: present
+
+- name: Add the user 'User 2'
+  user:
+    name: user2
+    #password: 111
+    comment: User 2
+    groups: sudo, superusers
+    append: yes
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+    remove: yes
+
+- name: Add the user 'User 3'
+  user:
+    name: user3
+    #password: 111
+    comment: User 3
+    groups: sudo, superusers
+    append: yes
+    generate_ssh_key: yes
+    ssh_key_bits: 2048
+    ssh_key_file: .ssh/id_rsa
+    remove: yes
