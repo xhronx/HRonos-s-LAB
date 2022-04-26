@@ -1,23 +1,20 @@
 ---
 #tasks file for dnsmasq
 
-- name: Install Dnsmasq
+- name: Install dnsmasq
   package:
     name: dnsmasq
-    state: present
-#  tags: dnsmasq
+    state: latest
 
 - name: Set configuration file
   template:
-    src: etc_dnsmasq.conf.j2
+    src: dnsmasq.j2
     dest: /etc/dnsmasq.conf
-    validate: 'dnsmasq --test --conf-file=%s'
+    #validate: 'dnsmasq --test --conf-file=%s'
   notify: restart dnsmasq
-#  tags: dnsmasq
 
 - name: Make sure Dnsmasq is running
   service:
     name: dnsmasq
     state: started
     enabled: yes
-#  tags: dnsmasq
