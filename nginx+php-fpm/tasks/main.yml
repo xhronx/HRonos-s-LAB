@@ -29,6 +29,20 @@
   apt:
     name: nginx
     state: latest
+
+- name: install php-fpm
+  apt:
+    name: php-fpm
+    state: latest
+
+- name: index.html add folder
+  file: 
+    path: /opt/nginx/ansible/
+    state: directory
+
+- name: edit index file
+  shell:
+    cmd: 'echo "<?php phpinfo();?>" > /opt/nginx/ansible/index.html'
     
 - name: run & enabled nginx
   service:
@@ -36,7 +50,11 @@
     state: started
     enabled: true
 
-- name: install php-fpm
-  apt:
-    name: php-fpm
-    state: latest
+- name: Ensure SELinux is set to enforcing mode
+  ansible.builtin.lineinfile:
+    path: /etc/nginx/sites-enabled/default
+    regexp: 'root /var/www/html;'
+    line: root /opt/nginx/ansible/;
+  notify:
+    - restart nginx
+
