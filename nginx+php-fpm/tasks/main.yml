@@ -40,4 +40,3 @@
   apt:
     name: php-fpm
     state: latest
-
