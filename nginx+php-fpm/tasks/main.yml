@@ -1,0 +1,60 @@
+---
+# tasks file for nginx+php-fpm
+
+- name: install curl
+  apt:
+    name: curl
+    state: latest
+
+- name: install gnupg2
+  apt:
+    name: gnupg2
+    state: latest
+
+- name: проверкf подлинности пакетов
+  ansible.builtin.get_url:
+    url: https://nginx.org/keys/nginx_signing.key
+    dest: /tmp/nginx_signing.key
+
+- name: install PGP-key
+  apt_key:
+    file: /tmp/nginx_signing.key
+    state: present
+
+- name: peremestit kluch
+  shell:
+    cmd: mv /tmp/nginx_signing.key /etc/apt/trusted.gpg.d/nginx_signing.asc
+
+- name: install nginx
+  apt:
+    name: nginx
+    state: latest
+
+- name: install php-fpm
+  apt:
+    name: php-fpm
+    state: latest
+
+- name: index.html add folder
+  file: 
+    path: /opt/nginx/ansible/
+    state: directory
+
+- name: edit index file
+  shell:
+    cmd: 'echo "<?php phpinfo();?>" > /opt/nginx/ansible/index.html'
+    
+- name: run & enabled nginx
+  service:
+    name: nginx
+    state: started
+    enabled: true
+
+- name: Ensure SELinux is set to enforcing mode
+  ansible.builtin.lineinfile:
+    path: /etc/nginx/sites-enabled/default
+    regexp: 'root /var/www/html;'
+    line: root /opt/nginx/ansible/;
+  notify:
+    - restart nginx
+

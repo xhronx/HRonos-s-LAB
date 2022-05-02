@@ -1,81 +1,20 @@
 ---
-# tasks file for dnsmasq
+#tasks file for dnsmasq
 
-- name: install dnsmasq
-  apt:
+- name: Install dnsmasq
+  package:
     name: dnsmasq
-    state: present
+    state: latest
 
-- name: edit dnsmasq.conf no-dhcp-interface=
-  ansible.builtin.lineinfile:
-    path: /etc/dnsmasq.conf
-    regexp: '#no-dhcp-interface='
-    line: 'no-dhcp-interface=eth0'
+- name: Set configuration file
+  template:
+    src: dnsmasq.j2
+    dest: /etc/dnsmasq.conf
+    #validate: 'dnsmasq --test --conf-file=%s'
+  notify: restart dnsmasq
 
-- name: edit dnsmasq.conf listen-address
-  ansible.builtin.lineinfile:
-    path: /etc/dnsmasq.conf
-    regexp: '#listen-address='
-    line: 'listen-address=127.0.0.1#5400'
-
-- name: edit dnsmasq.conf cache-size=
-  ansible.builtin.lineinfile:
-    path: /etc/dnsmasq.conf
-    regexp: '#cache-size=150'
-    line: cache-size=10001
-
-- name: edit dnsmasq.conf no-negcache
-  ansible.builtin.lineinfile:
-    path: /etc/dnsmasq.conf
-    regexp: '#no-negcache'
-    line: no-negcache
-
-#listen-address=127.0.0.1#5300
-
-#- name: enable dnsmasq
-#  shell:
-#    cmd: "systemctl enable dnsmasq"
-
-#sudo systemctl start systemd-resolved
-#- name: systemd-resolved
-#  systemd: dnsmasq
-#  state: stopped
-#  enabled: no
-
-- name: start and enable service
+- name: Make sure Dnsmasq is running
   service:
     name: dnsmasq
-    state: stopped
-    enabled: no
-
-
-#- name: start dnsmasq
-#  shell:
-#    cmd: "systemctl start dnsmasq"
-#    cmd: "systemctl status dnsmasq.service" 
-
-#- name: stopped and enable service
-#  service:
-#    name: dnsmasq
-#    state: stopped 
-#    enabled: false
-
-#- name: start and enable service
-#  service:
-#    name: dnsmasq
-#    state: started
-#    enabled: true
-
-#- name: enable dnsmasq
-#  service:
-#    name: dnsmasq.service
-#    enabled: yes
-#    state: started
-
-
-
-
-
-
-
-
+    state: started
+    enabled: yes

@@ -1,0 +1,18 @@
+---
+# tasks file for sf-ws-nginx
+- name: install nginx
+  apt: 
+    name: nginx
+    state: latest
+  notify: 
+   - nginx run
+
+- name: 9000 порт to php
+  template: 
+    src: templates/default.conf
+    dest: /etc/nginx/conf.d/php.conf
+  notify: 
+    - nginx restart
+
+
+

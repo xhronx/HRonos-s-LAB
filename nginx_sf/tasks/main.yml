@@ -1,0 +1,15 @@
+---
+# tasks file for nginx_sf
+- name: install nginx from sf
+  apt: 
+    name: nginx
+    state: latest
+  notify: 
+    - nginx systemd
+
+- name: copy index
+  template: 
+    src: templates/index.html
+    dest: /var/www/html/index.html
+  notify: 
+    - nginx systemd

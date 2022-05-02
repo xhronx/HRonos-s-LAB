@@ -1,0 +1,30 @@
+---
+
+- name: Install PHP-FPM
+  apt:
+    name: php7.4-fpm
+    state: latest
+
+- name: Remove default FPM pool
+  file:
+    state: absent
+    path: "/etc/php/7.4/fpm/pool.d/www.conf"
+
+- name: Configure FPM pools
+  template:
+    src: www.conf
+    dest: "/etc/php/7.4/fpm/pool.d/www.conf"
+  notify: reload php-fpm
+
+- name: Copy index
+  template: 
+    src: index.html
+    dest: /var/www/html/index.html
+  notify: 
+    - reload php-fpm
+
+- name: Enable and start PHP-FPM service
+  systemd:
+    name: php7.4-fpm.service
+    enabled: true
+    state: started
