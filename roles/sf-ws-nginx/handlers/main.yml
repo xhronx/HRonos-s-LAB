@@ -1,0 +1,13 @@
+---
+# handlers file for sf-ws-nginx
+- name: nginx run
+  systemd: 
+    name: nginx
+    enabled: yes
+    state: started
+
+- name: nginx restart
+  systemd: 
+    name: nginx
+    enabled: yes
+    state: reloaded

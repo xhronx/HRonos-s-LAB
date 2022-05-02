@@ -1,0 +1,7 @@
+---
+# handlers file for sf-ws-php-fpm
+
+- name: reload php-fpm
+  service:
+    name: php7.4-fpm
+    state: reloaded
