@@ -1,0 +1,3 @@
+Flask
+Psycopg2
+ConfigParser
