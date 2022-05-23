@@ -1,0 +1,13 @@
+version: "3.3"
+services:
+
+  web:
+    build: .
+    extra_hosts: 
+    - "app:127.0.0.1"
+    ports:
+    - '80:3000'
+  db:
+    image: postgres
+    ports:
+    - '0.0.0.0:80:3000'

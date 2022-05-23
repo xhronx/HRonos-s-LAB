@@ -1,0 +1,9 @@
+version: "3.3"
+services:
+
+  web:
+    build: .
+    links:
+      - "db:database"
+  db:
+    image: postgres

@@ -1,0 +1,25 @@
+version: "3.3"
+
+services:
+  web:
+    build: .
+    ports:
+      - "127.0.0.1:5000:5000"
+    depends_on:
+    - redis
+    networks:
+    - net
+
+
+  redis:
+    image: "redis:alpine"
+    volumes:
+    - redis-data:/data
+    networks:
+    - net
+
+networks:
+ net:
+
+volumes:
+ redis-data:

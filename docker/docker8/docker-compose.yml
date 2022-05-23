@@ -1,0 +1,35 @@
+version: '2'
+services:
+  # имя контейнера
+  mariadb:
+    # адрес Docker образа и его тег
+    image: docker.io/bitnami/mariadb:10.3
+    # переменные окружения, которые передаются в контейнер при запуске
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=bn_redmine
+      - MARIADB_DATABASE=bitnami_redmine
+    # монтируемые volumes, которые декларируются в конце
+    volumes:
+      - 'mariadb_data:/bitnami'
+  redmine:
+    image: docker.io/bitnami/redmine:4
+    environment:
+    - REDMINE_DB_USERNAME=bn_redmine
+    - REDMINE_DB_NAME=bitnami_redmine
+    # порт, пробрасываемый из контейнера в хост
+    ports:
+      - '80:3000'
+    volumes:
+      - 'redmine_data:/bitnami'
+    # контейнер redmine зависит от mariadb и не будет запускаться, пока не 
+    # будут работоспособны зависимости
+    depends_on:
+      - mariadb
+
+# Объявляем наши volumes и указываем их storage-драйвер
+volumes:
+  mariadb_data:
+    driver: local
+  redmine_data:
+    driver: local

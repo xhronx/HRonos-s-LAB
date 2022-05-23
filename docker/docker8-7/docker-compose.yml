@@ -1,0 +1,12 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:4.0.9-alpine
+    init: true
+    container_name: redis
+    networks:
+      dockernet:
+      ipv4_address: 172.20.0.2
+    dns:
+      - 8.8.8.8

@@ -1,0 +1,26 @@
+version: "3.9"
+
+services:
+  proxy:
+    build: ./proxy
+    networks:
+      - frontend
+  app:
+    build: ./app
+    networks:
+      - frontend
+      - backend
+  db:
+    image: postgres
+    networks:
+      - backend
+
+networks:
+ internal:
+   driver: overlay
+   attachable: true
+ public:
+   driver: overlay
+   attachable: true
+   external:
+     name: public

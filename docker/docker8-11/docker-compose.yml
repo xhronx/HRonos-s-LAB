@@ -1,0 +1,22 @@
+version: '3.3'
+
+# Фрагменты, начинающиеся на «x-» игнорируются docker-compose, 
+# поэтому их можно использовать, как верхнеуровневые шаблоны.
+x-logging: &logging
+ driver: "json-file"
+ options:
+   max-size: "1000m"
+   max-file: "1"
+
+services:
+ web:
+   image: registry.gitlab.com/aleph-codec/octra-demo:latest
+   env_file:
+     - envs/master.env
+   networks:
+     - internal
+   ports:
+     - 8000:8000
+      # Потом в сервис web мы ссылаемся на этот фрагмент с 
+      # помощью символа «*».
+   logging: *logging

@@ -1,0 +1,35 @@
+version: "3.3"
+services:
+  web:
+    image: nginx:alpine
+    volumes:
+      # Просто путь, имя задаст сам Docker Engine
+      - /var/lib/mysql
+
+      # Абсолютный путь
+      - /opt/data:/var/lib/mysql
+
+      # Относительный путь
+      - ./cache:/tmp/cache
+
+      # Путь в зависимости от пользователя
+      - ~/configs:/etc/configs/:ro # :ro (read only флаг)
+
+      # Именованный
+      - datavolume:/var/lib/mysql
+        # Можно смонтировать tmpfs временную файловую систему 
+        # прямо в контейнер с помощью подобной конструкции в 
+        # директиве volumes
+      - type: tmpfs
+        target: /app
+        tmpfs:
+          size: 1000
+
+  db:
+    image: postgres:latest
+    volumes:
+      - "dbdata:/var/lib/postgresql/data"
+
+volumes:
+  mydata:
+  dbdata:

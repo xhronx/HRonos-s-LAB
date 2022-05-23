@@ -1,0 +1,28 @@
+version: "3.3"
+services:
+  frontend:
+    image: frontend
+    profiles: ["frontend"]
+
+  phpmyadmin:
+    image: phpmyadmin
+    depends_on:
+      - db
+    profiles:
+      - debug
+
+  backend:
+    image: backend
+
+  db:
+    image: mysql
+
+# Четыре сервиса: frontend, phpmyadmin, backend, db 
+# и два профиля: debug и frontend.
+
+# В этом случае docker-compose up -d поднимет только backend 
+# и db сервис, не поднимая frontend и phpmyadmin. Чтобы 
+# использовать профили, необходимо их указать через 
+# флаг --profile или COMPOSE_PROFILES переменную окружения, 
+# например:
+# $ docker-compose --profile frontend --profile debug up
