@@ -1,0 +1,27 @@
+version: "3.3"
+
+services:
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./www:/var/www
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - php-7.4
+
+  php-7.4:
+    build: .
+    working_dir: /var/www
+    container_name: php-7.4
+    volumes:
+      - ./www:/var/www
+      - ./php-ini/7.3/php.ini:/usr/local/etc/php/php.ini
+    ports:
+      - "9000:9000"
+    extra_hosts:
+      - 'nginx:127.0.0.1'
