@@ -1,0 +1,28 @@
+version: '3.3'
+
+services:
+
+  web:
+    image: nginx:latest
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+        - ./www:/var/www
+        - ./nginx:/etc/nginx/conf.d
+    extra_hosts: 
+      - "nginx:127.0.0.1"
+    links:
+      - "php"
+
+  php:
+    build: .
+    ports:
+      - "9000:9000"
+    volumes:
+        - ./www:/var/www
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sS http://nginx | grep -c works > /dev/null"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
