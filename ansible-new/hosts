@@ -4,13 +4,13 @@ localhost ansible_connection=local
 [staging_servers]
 sf-vm-1-dg ansible_host=51.250.16.193 ansible_connection=ssh ansible_user=xhronx #ansible_pass=1212 
 
-[windows]
+[windows_ste]
 10.10.8.70 ansible_host=msk-pc075.OOO.STE.LAN
 10.10.8.134 ansible_host=msk-pc120.OOO.STE.LAN
 
-[windows:vars]
+[windows_ste:vars]
 ansible_user=adm.s.trifonov@STE.LAN
-ansible_password="p;L'8246"
+ansible_password=p;L'8246
 ansible_port=5986
 ansible_connection=winrm
 #ansible_winrm_transport=basic
@@ -24,6 +24,18 @@ ansible_winrm_transport=kerberos
 #ansible_winrm_kerberos_delegation: allows the credentials to traverse multiple hops
 #ansible_winrm_kerberos_hostname_override: the hostname to be used for the kerberos exchange
 
+[windows_out]
+misha_pc ansible_host=10.10.8.50
+
+[windows_out:vars]
+ansible_user=q
+ansible_password=Gfhjkm#23
+#ansible_user=hronos
+#ansible_password=qetaazaSD13
+ansible_port=5986
+ansible_connection=winrm
+ansible_winrm_transport=basic
+ansible_winrm_server_cert_validation=ignore
 
 #[others]
 #10.10.10.13 #ansible_ssh_private_key_file=
