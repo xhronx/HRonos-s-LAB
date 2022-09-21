@@ -1,0 +1,25 @@
+---
+- name: install apache and upload my web page
+  hosts: linux
+  become: yes
+
+  vars:
+    source_file: ./MyWebSite/index.html
+    destin_file: /var/www/html
+
+  tasks:
+  - name: install apache web server
+    apt: name=apache2 state=latest
+  
+  - name: copy mysite to servers
+    copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+    notify: Restart apache2
+
+  - name: start web server and enable it
+    service: name=apache2 state=started enabled=yes
+
+  
+
+  handlers:
+  - name: Restart apache2
+    service: name=apache2 state=restarted

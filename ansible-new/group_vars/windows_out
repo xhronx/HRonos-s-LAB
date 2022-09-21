@@ -1,0 +1,10 @@
+---
+    ansible_user                            : q
+    ansible_password                        : Gfhjkm#23
+    #ansible_user                           : hronos
+    #ansible_password                       : qetaazaSD13
+    ansible_port                            : 5986
+    ansible_connection                      : winrm
+    ansible_winrm_transport                 : basic
+    ansible_winrm_server_cert_validation    : ignore
+    a3                                      : aaaaaa33333

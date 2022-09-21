@@ -1,0 +1,42 @@
+---
+- name: install apache and upload my web page
+  hosts: staging
+  become: yes
+
+  vars:
+    source_file: ./MyWebSite/index.html
+    destin_file: /var/www/html
+
+  tasks:
+  - name: Check OS 
+    debug: var=ansible_os_family
+
+  - name: install apache web server REDHAT
+    yum: name=httpd state=latest 
+    when: ansible_os_family == "RedHat"      
+
+  - name: install apache web server DEBIAN
+    apt: name=apache2 state=latest
+    when: ansible_os_family == "Debian"
+  
+  - name: copy mysite to servers
+    copy: src={{ source_file }} dest={{ destin_file }} mode=0555
+    notify: Restart apache2
+
+  - name: start web server and enable it REDHAT
+    service: name=httpd state=started enabled=yes
+    when: ansible_os_family == "RedHat"
+
+  - name: start web server and enable it DEBIAN
+    service: name=apache2 state=started enabled=yes
+    when: ansible_os_family == "Debian"
+
+  handlers:
+  
+  - name: Restart apache2
+    service: name=httpd state=restarted
+    when: ansible_os_family == "RedHat"
+
+  - name: Restart apache2
+    service: name=apache2 state=restarted
+    when: ansible_os_family == "Debian"

@@ -1,0 +1,8 @@
+---
+- name: test connection to my servers
+  hosts: linux
+  become: yes
+  
+  tasks:
+  - name: ping my linux system
+    ping: 

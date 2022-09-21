@@ -2,13 +2,8 @@
 localhost ansible_connection=local
 
 [staging]
-sf-vm-1-dg ansible_host=51.250.16.193
-
-[staging:vars]
-ansible_connection=ssh
-ansible_user=xhronx
-#ansible_pass=1212
-a1=aaaaaa11111
+sf-vm-1-dg ansible_host=51.250.16.193 owner=ignat
+sf-vm-2-dg ansible_host=51.250.101.198 owner=arcanov
 
 [linux:children]
 targets
@@ -17,17 +12,6 @@ staging
 [windows_ste]
 10.10.8.70 ansible_host=msk-pc075.OOO.STE.LAN
 10.10.8.134 ansible_host=msk-pc120.OOO.STE.LAN
-
-[windows_ste:vars]
-ansible_user=adm.s.trifonov@STE.LAN
-ansible_password=p;L'8246
-ansible_port=5986
-ansible_connection=winrm
-#ansible_winrm_transport=basic
-ansible_winrm_server_cert_validation=ignore
-#ansible_user=adm.s.trifonov@ste.lan
-ansible_winrm_transport=kerberos
-a2=aaaaaa22222
 
 #ansible_winrm_kinit_mode: managed/manual (manual means Ansible will not obtain a ticket)
 #ansible_winrm_kinit_cmd: the kinit binary to use to obtain a Kerberos ticket (default to kinit)
@@ -38,32 +22,12 @@ a2=aaaaaa22222
 [windows_out]
 misha_pc ansible_host=10.10.8.50
 
-[windows_out:vars]
-ansible_user=q
-ansible_password=Gfhjkm#23
-#ansible_user=hronos
-#ansible_password=qetaazaSD13
-ansible_port=5986
-ansible_connection=winrm
-ansible_winrm_transport=basic
-ansible_winrm_server_cert_validation=ignore
-a3=aaaaaa33333
-
 #[others]
 #10.10.10.13 #ansible_ssh_private_key_file=
 
 [moscow_ste]
 MSK-NB[001:005].ooo.ste.lan
 MSK-PC[001:120].ooo.ste.lan
-
-[moscow_ste:vars]
-ansible_user=adm.s.trifonov@STE.LAN
-ansible_password=p;L'8246
-ansible_port=5986
-ansible_connection=winrm
-ansible_winrm_server_cert_validation=ignore
-ansible_winrm_transport=kerberos
-
 
 [okunayskoe_ste]
 OKN-NB[010:020].ooo.ste.lan
@@ -72,27 +36,9 @@ OKN-PC200.ooo.ste.lan
 ONSK-PC013.ooo.ste.lan
 OCN-PC058.ooo.ste.lan
 
-[okunayskoe_ste:vars]
-ansible_user=adm.s.trifonov@STE.LAN
-ansible_password=p;L'8246
-ansible_port=5986
-ansible_connection=winrm
-ansible_winrm_server_cert_validation=ignore
-ansible_winrm_transport=kerberos
-
-
 [omsk_ste]
 OMSK-NB001.ooo.ste.lan
 OMSK-PC[001:033].ooo.ste.lan
-
-[omsk_ste:vars]
-ansible_user=adm.s.trifonov@STE.LAN
-ansible_password=p;L'8246
-ansible_port=5986
-ansible_connection=winrm
-ansible_winrm_server_cert_validation=ignore
-ansible_winrm_transport=kerberos
-
 
 [tst_win_ste]
 MSK-PC058.ooo.ste.lan
@@ -100,12 +46,3 @@ MSK-PC084.ooo.ste.lan
 MSK-PC089.ooo.ste.lan
 MSK-PC091.ooo.ste.lan
 MSK-PC092.ooo.ste.lan
-MSK-PC095.ooo.ste.lan
-
-[tst_win_ste:vars]
-ansible_user=adm.s.trifonov@STE.LAN
-ansible_password=p;L'8246
-ansible_port=5986
-ansible_connection=winrm
-ansible_winrm_server_cert_validation=ignore
-ansible_winrm_transport=kerberos

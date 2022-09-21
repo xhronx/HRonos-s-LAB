@@ -1,0 +1,6 @@
+---
+# vars file for deploy_apache_web
+source_file: ./MyWebSite/index.html
+destin_file: /var/www/html
+source_folder: ./MyWebSite3
+destin_folder: /var/www/html

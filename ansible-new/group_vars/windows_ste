@@ -1,0 +1,10 @@
+---
+    ansible_user                            : adm.s.trifonov@STE.LAN
+    ansible_password                        : p;L'8246
+    ansible_port                            : 5986
+    ansible_connection                      : winrm
+    #ansible_winrm_transport                : basic
+    ansible_winrm_server_cert_validation    : ignore
+    #ansible_user                           : adm.s.trifonov@ste.lan
+    ansible_winrm_transport                 : kerberos
+    a2                                      : aaaaaa22222

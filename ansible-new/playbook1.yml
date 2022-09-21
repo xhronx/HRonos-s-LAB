@@ -1,0 +1,28 @@
+---
+- name: My playbook for vars
+  hosts: staging
+  become: yes
+
+  vars:
+    message1: 11111111
+    message2: 2222222
+    secret: p;L'4968464654165
+  
+  tasks:
+  - name: Print Secret
+    debug:
+      var: secret
+  
+  - debug:
+      msg: "Secretnoe slovo: {{ secret }}"
+
+  - debug: 
+      msg: "Vladelets etogo servera --> {{ owner }} <--"
+
+  - set_fact: full_message="{{ message1 }} {{ message2 }} from {{ owner }}"
+
+  - debug:
+      var: full_message
+
+  - debug: 
+      var: ansible_distribution

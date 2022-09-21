@@ -1,0 +1,32 @@
+---
+- name: loops plbook
+  hosts: sf-vm-2-dg
+  become: yes
+
+  tasks:
+  - name: Say hallo to all
+    debug: msg="Hello {{ item }}"
+    loop: 
+      - "Vasya"
+      - "Petya"
+      - "Masha"
+      - "Olya"
+  
+  - name: Loop Until ex
+    shell: echo -n Z >> myfile && cat myfile
+    register: output
+    delay: 2
+    retries: 10
+    until: output.stdout.find("ZZZZ") == false
+
+  - name: prinf final
+    debug: 
+      var: output.stdout 
+
+#  - name: Install many packaged
+#    yum: name={{ item }} state=absent
+#    loop:
+#      - python
+#      - tree
+#      - mysql-client
+
