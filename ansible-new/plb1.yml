@@ -1,7 +1,7 @@
 ---
 - name: install apache and upload my web page
-  hosts: staging
+  hosts: "{{ MYHOSTS }}"
   become: yes
 
   roles:
-   - {role: deploy_apacje_web, when: ansible_system == 'Linux'}
+    - { role: deploy_apache_web, when: ansible_system == 'Linux' }
