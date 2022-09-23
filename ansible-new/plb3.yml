@@ -1,0 +1,28 @@
+---
+- name: My Super Playbook
+  hosts: staging
+  become: yes
+
+  vars:
+    mytext: "Privet Privet Privet"
+
+  tasks:
+  - name: Ping test
+    ping:
+
+  - name: Create file1
+    copy:
+      dest: /home/file1.txt
+      content: |
+        This is FileN1
+        On ENGLISH Hello World
+        On RUSSIAN {{ mytext }}
+    delegate_to: sf-vm-1-dg
+
+  - name: Create file2
+    copy:
+      dest: /home/file2.txt
+      content: |
+        This is file2
+        On ENGLISH Hello World
+        On RUSSIAN {{ mytext }}
