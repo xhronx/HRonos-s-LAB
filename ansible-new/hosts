@@ -13,17 +13,8 @@ staging
 10.10.8.70 ansible_host=msk-pc075.OOO.STE.LAN
 10.10.8.134 ansible_host=msk-pc120.OOO.STE.LAN
 
-#ansible_winrm_kinit_mode: managed/manual (manual means Ansible will not obtain a ticket)
-#ansible_winrm_kinit_cmd: the kinit binary to use to obtain a Kerberos ticket (default to kinit)
-#ansible_winrm_service: overrides the SPN prefix that is used, the default is ``HTTP`` and should rarely ever need changing
-#ansible_winrm_kerberos_delegation: allows the credentials to traverse multiple hops
-#ansible_winrm_kerberos_hostname_override: the hostname to be used for the kerberos exchange
-
 [windows_out]
 misha_pc ansible_host=10.10.8.50
-
-#[others]
-#10.10.10.13 #ansible_ssh_private_key_file=
 
 [moscow_ste]
 MSK-NB[001:005].ooo.ste.lan
@@ -54,3 +45,4 @@ ste-cloud-t2.ste.lan
 ste-cloud-t3.ste.lan
 ste-cloud-t4.ste.lan
 ste-cloud-tbr.ste.lan
+ste-ds-prt1.ste.lan
