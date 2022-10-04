@@ -1,5 +1,5 @@
 ---
     ansible_connection   : ssh
     ansible_user         : xhronx
-    ansible_pass        : 1212
+    ansible_pass         : 1212
     a1                   : aaaaaa11111
