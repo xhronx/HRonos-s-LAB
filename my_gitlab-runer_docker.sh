@@ -6,7 +6,7 @@ docker run -d --name gitlab-runner --restart always \
   -v /srv/gitlab-runner/config:/etc/gitlab-runner \
   gitlab/gitlab-runner
 
-docker exec gitlab-runner gitlab/gitlab-runner register \
+docker exec gitlab-runner gitlab-runner register \
   --non-interactive \
   --executor "shell" \
   --url "https://gitlab.com/" \
