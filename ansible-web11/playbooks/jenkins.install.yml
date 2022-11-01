@@ -1,0 +1,7 @@
+---
+- hosts: "{{ HOSTS }}"
+  become: true
+  vars:
+    owner: xhronx
+  tasks:
+

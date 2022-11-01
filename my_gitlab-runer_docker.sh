@@ -1,12 +1,12 @@
 #! /bin/bash
 # Запустить докер с gitlab-ранером внутри ++
 
-docker run -d --name gitlab-runner --restart always \
+docker run -d --name runner --restart always \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /srv/gitlab-runner/config:/etc/gitlab-runner \
   gitlab/gitlab-runner
 
-docker exec gitlab-runner gitlab-runner register \
+docker exec runner gitlab-runner register \
   --non-interactive \
   --executor "shell" \
   --url "https://gitlab.com/" \
