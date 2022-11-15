@@ -9,7 +9,7 @@
       apt_key:
         url: "https://pkg.jenkins.io/debian-stable/jenkins.io.key"
         state: present
-    
+
     - name: install repo
       apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
 
@@ -17,7 +17,7 @@
       apt:
         update_cache: yes
         state: latest
-    
+
     - name: install java
       apt:
         name: default-jdk
@@ -26,30 +26,10 @@
     - name: install jenkins
       apt:
         name: jenkins
-        state: absent
+        state: latest
 
-    - name: user +
-      user:
+    - name: start jenkins
+      service:
         name: jenkins
-        groups: docker,root
-        generate_ssh_key: yes
-        ssh_key_bits: 2048
-        ssh_key_file: .ssh/id_rsa
-        append: yes
-
-
-
-#    - name: start jenkins
-#      service:
-#        name: jenkins
-#        enabled: true
-#        state: started
-   
-
-
-    
-
-      
-
-
-    
+        enabled: true
+        state: started

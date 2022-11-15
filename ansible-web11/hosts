@@ -1,13 +1,15 @@
 localhost ansible_connection=local
-jenkins ansible_host=10.10.10.3
-production ansible_host=10.10.10.5
-stating ansible_host=10.10.10.13
+production ansible_host=10.129.0.32
+stating ansible_host=10.129.0.17
+
+[jenkins]
+localhost
 
 [prod]
 production
 stating
 
 [node]
-jenkins
+localhost
 production
 stating
