@@ -20,9 +20,8 @@ services:
 
   # Контейнер с PHP-FPM, назовём его app
   app:
-    # Если нет секции build, то система будет искать образ в репозиториях
-    build: 
-      context: ./fmp
+    build:
+      context: ./fpm
       dockerfile: Dockerfile
     image: myapp/php # имя будущего образа
     container_name: app
@@ -31,6 +30,7 @@ services:
     # мы можкм создать для контейнера внутреннюю сеть
     networks:
       - app-network
+
 # Docker Networks
 networks:
   app-network:
