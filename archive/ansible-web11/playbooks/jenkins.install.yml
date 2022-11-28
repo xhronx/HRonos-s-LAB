@@ -1,0 +1,35 @@
+---
+- hosts: localhost
+  become: true
+  vars:
+    owner: xhronx
+  tasks:
+
+    - name: Jenkins repo apt
+      apt_key:
+        url: "https://pkg.jenkins.io/debian-stable/jenkins.io.key"
+        state: present
+
+    - name: install repo
+      apt_repository: repo='deb https://pkg.jenkins.io/debian-stable binary/' state=present
+
+    - name: update apt cache
+      apt:
+        update_cache: yes
+        state: latest
+
+    - name: install java
+      apt:
+        name: default-jdk
+        state: present
+
+    - name: install jenkins
+      apt:
+        name: jenkins
+        state: latest
+
+    - name: start jenkins
+      service:
+        name: jenkins
+        enabled: true
+        state: started
