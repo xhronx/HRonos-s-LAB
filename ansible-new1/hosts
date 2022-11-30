@@ -1,8 +1,8 @@
 localhost ansible_connection=local
-production ansible_host=10.129.0.32
-stating ansible_host=10.129.0.17
+production ansible_host=10.10.10.4
+stating ansible_host=10.10.10.7
 
-[jenkins]
+[console]
 localhost
 
 [prod]
