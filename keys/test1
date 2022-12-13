@@ -1,0 +1,9 @@
+gpg: key 8211FA37C695F396 marked as ultimately trusted
+gpg: directory '/home/xhronx/.gnupg/openpgp-revocs.d' created
+gpg: revocation certificate stored as '/home/xhronx/.gnupg/openpgp-revocs.d/5FCED6AACDACC546CA5A0C1E8211FA37C695F396.rev'
+public and secret key created and signed.
+
+pub   rsa3072 2022-12-12 [SC] [expires: 2024-12-11]
+      5FCED6AACDACC546CA5A0C1E8211FA37C695F396
+uid                      TrifonovSV <trifonov32ru@gmail.com>
+sub   rsa3072 2022-12-12 [E] [expires: 2024-12-11]
