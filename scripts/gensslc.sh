@@ -1,0 +1,42 @@
+#! /bin/bash
+#
+
+openssl genrsa -des3 -out sf-pr12.key 4096
+openssl req -new -key sf-pr12.key -out sf-pr12.csr
+cp sf-pr12.key sf-pr12.key.pw
+openssl rsa -in sf-pr12.key.pw -out sf-pr12.key
+cat sf-pr12.csr
+###
+-----BEGIN CERTIFICATE REQUEST-----
+MIIEoTCCAokCAQAwXDELMAkGA1UEBhMCUlUxEzARBgNVBAgMClNvbWUtU3RhdGUx
+DzANBgNVBAcMBk1PU0NPVzEVMBMGA1UECgwMSHJvbm9zJ3MgTEFCMRAwDgYDVQQD
+DAdzZi1wcjEyMIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEAqfuX2Qy+
+b9zOw1GY15jH82GOiNYWDomJDRZ/XzLWC7cXuilrVZco331RldQ+LT6SrP2OfmcZ
+oSv6yFsriSN83rwTOnWVCBtVOWgDHLYQv1YFYZDUh3YXPKFELW7qFhgaU9SU5iid
+xYxaaOeElj+uW8pCmTvCDif2PG+pzMWU4kfAjpFTyhMKLBmFvZv0oHAt/5k7lF3e
+KDZqbAWYzIzr9FAsUF1ZXWVcoUk9FYImdX4HKHjcDlLFnGZkg30sEOW9hISN13wi
+EDCPOqBcBt5n1YX221f7awKyNZzdEE/0FVvS4VNBaQt/hDxhJBKhV52aigjmL8sb
+0fVvN0HlpUqGP+D3je83luSBkuEhTG5V4E5LloYVtu1cW2EUsEd1GutwP5VwRsNG
+LqpVQzMSTPagWrOgsWWpTXR43zKauQsXlWUCF/FE0AE5EDriq9TWwhqmZrt9QeGi
+qjMjfZBzQo3zk8/pHqNq/obOaeI5B6gktuA73AjhQtbx8mSFoT19RuoVkFY+Q9m+
+1holSKLc4BneHF+ZAte1zC7Jj6LzS7qJw6edViWjCv95HmKjM3oak2cMP8wt7EzS
+ui/595NHhtXl4XI9Ab7R0RosWlvXfpVLCGkPqzoLMCiD1pYZUoH/R9q38BEYtaJc
+VWpScTLFrLFsZAqiQPvlFxKW62DbxQXIeaMCAwEAAaAAMA0GCSqGSIb3DQEBCwUA
+A4ICAQAmkFjVw8s3woE/H7QZDktQmrcNkhCC7vYj802hsjgUyV2d8s+zjZ4v3iu0
+ZiXeqNFgagxscIXszDChoRPWKyzcHYpj7gVzfw0mqUjn40UaIbVNwfXqTGpvN0KO
+b8wjQVL4taLEjWqxDCyQ3SiSfqS80uOXuk0A2q/NKsjiOAYKDm8XU1WWcq1Wh42+
+Fkxb4ozFEjk29Ej6R165B9dSUE+rKhwUoNDFGHDNs4I65AXqNlBp8WkxcPHrrHKT
+6YvYMXaJbnrOuRUkcZmfls0L7EXXEC8Ysoc6+o4w/lGN7PtWT3l+vsuTVqtyBwrj
+BH84aeLnLWrZHqNlb67L1z2mXhH78JLKFYjimiQn7lNJdaJvCjjYO+lIY/+pNb3J
+TrloHUeyiOb5q/0yP58t2exlBuCr5JhzzEnPjj4UzwtNrguWB5qe5bUicbjZ9rXI
++qR4ZFdYLvu3csQerb3sqghaucP5SbpxEBiN4C/GJsy37X1FTBmHLX5lMP2gmDQr
+coAdr/EszhOQrBlTkKDbrHO5e7GdePygjT0WdWzIE/UydX4FFUCkI8aksUKhkjlW
+W6ywyGmwJj37/xel+oai52My3v7s0vBKJGgfMtEtg6UEHQhhVbrO0WnIwV0+ZuxN
+HcnnYmtwqVyo+/qqiQHeN0PYdGjwzlzDjQDWpo84qwTepfi78g==
+-----END CERTIFICATE REQUEST-----
+###
+openssl x509 -req -in sf-pr12.csr -signkey sf-pr12.key -out sf-pr12.crt
+mkdir /etc/nginx/ssl
+cp sf-pr12.crt /etc/nginx/ssl
+cp sf-pr12.key /etc/nginx/ssl
+...
