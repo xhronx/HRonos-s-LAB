@@ -1,0 +1,1 @@
+C:\OFFICE\setup.exe /CONFIGURE C:\office\configuration-Office2019.xml

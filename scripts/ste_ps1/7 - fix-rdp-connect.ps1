@@ -1,0 +1,7 @@
+﻿Set-ExecutionPolicy RemoteSigned                                                                                                                        #!включить использование скриптов нв пк
+New-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services\Client" -Name "fClientDisableUDP" -PropertyType DWord -Value ”1” #!добавить и изменить ключ 
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services\Client" -Name "fClientDisableUDP" -Value ”1”                     #на отключающий использование 
+Get-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services\Client"                                                          #UDP при RDP соединениях
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services" -Name "fDenyTSConnections" -Value ”0”                           #!изменить ключ на включающий
+Get-ItemProperty -Path "HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\Terminal Services"                                                                 #доступ к управлению пк по RDP                                      
+GPUpdate /Force                                                                                                                                         #!обновить политики
