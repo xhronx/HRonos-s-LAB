@@ -1,0 +1,5 @@
+FROM nginx:mainline-alpine #Берем родительский образ Nginx
+EXPOSE 80 # Открываем 80 порт
+COPY custom.conf /etc/nginx/conf.d #Подменяем конфиг Nginx conf.d в контейнере на custom.conf
+COPY ./www /var/www #Копируем содержимое www в /var/www
+CMD ["nginx", "-g", "daemon off;"] #Запускаем Nginx как процесс.

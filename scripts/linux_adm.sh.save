@@ -1,0 +1,90 @@
+#! /bin/bash
+#
+
+##ПАМЯТЬ
+#проверить состояние Ethernet-соединения
+sudo ethtool eth0
+
+#что BIOS/UEFI сообщают об аппаратном обеспечении компьютера(память)
+sudo dmidecode --type memory
+
+#загрузить модуль ядра Linux edac_core(модуль постоянно проверяет память в поиске сбойных участков)
+sudo modprobe edac_core
+
+#команда даст вам сводку о числе ошибок, разбитых по модулям памяти
+sudo grep "[0-9]" /sys/devices/system/edac/mc/mc*/csrow*/ch*_ce_count
+
+##Работает ли приложение?(Apache)
+sudo ps -ef | grep apache2
+sudo netstat -plunt | grep apache2
+
+##ДИСКИ
+#получить сводку по свободному и использованному месту на диске
+sudo df -h #данные о жёстких дисках в удобном для восприятия
+sudo df -i #выводит число использованных inodes и их процент к файловой системе
+sudo df -hT #показывает и объём занятого пространства диска, и данные о его файловой системе
+
+#10 самых больших файлов на сервере
+find / -mount -type f -ls 2> /dev/null | sort -rnk7 | head -10 | awk '{printf "%10d MB\t%s\n",($7/1024)/1024,$NF}'
+
+#выводит сведения о процессоре, а также данные о подсистеме ввода-вывода для 
+#блочных устройств хранения данных, для разделов и сетевых файловых систем
+iostat -xz 1
+
+##ЛОГИ
+#dmesg 
+dmesg | tail
+dmesg | tail -f /var/log/syslog
+
+#сканирует логи и показывает возможные проблемы
+sudo find /var/log -type f -mtime -1 -exec tail -Fn0 {} +
+
+#настроить journald так, чтобы он сохранял логи после перезагрузки системы
+sudo mkdir -p /var/log/journal
+nano /etc/systemd/journald.con #insert [Journal] Storage=persistent
+journalctl -b #def 
+journalctl -b -1 #последняя перезагрузка
+
+##ДОП
+#информация о ботах поисковых систем, приходящих на сайт(delete)
+rm /var/www/****/protected/logs/selogs.txt
+
+#очистка apt и yum
+sudo apt-get clean
+sudo apt-get autoremove
+yum clean packages
+yum autoremove
+
+#Детальное исследование занятого места
+sudo apt-get install ncdu
+ncdu
+#ИЛИ
+du -kxh | egrep -v "\./.+/" | sort -n
+
+#размер удаленных, но используемых файлов
+sudo lsof | awk '/deleted/ {sum+=$7} END {print sum}'
+sudo lsof | grep -i delete
+
+#для веб сервера
+netstat #конечно
+sudo netstat -plunt | grep apache2
+sudo nginx -t #тест конфига nginx
+sudo nc -z 111.111.111.111 80 #тест порта 
+
+# dns test
+host -t A example.com
+host -t AAAA example.com
+
+
+
+
+
+
+
+
+
+
+
+
+
+
