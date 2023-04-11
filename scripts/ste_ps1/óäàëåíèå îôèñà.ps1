@@ -1,0 +1,1 @@
+ECHO y| Get-Package -Name "*Office*" | Uninstall-Package
