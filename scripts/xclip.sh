@@ -3,3 +3,4 @@
 
 # sudo apt install xclip -y
 xclip -selection clipboard -in ~/.ssh/id_rsa.pub
+#xclip -selection clipboard -out
